@@ -1,5 +1,6 @@
 "use client"
 
+import { logOut } from "@/app/action/auth"
 import {
   Collapsible,
   CollapsibleContent,
@@ -54,7 +55,12 @@ export function NavMain({
               <SidebarMenuSub>
                 {item.items?.map((subItem) => (
                   <SidebarMenuSubItem key={subItem.title}>
-                    <SidebarMenuSubButton render={<a href={subItem.url} />} className={subItem.isActive ? "bg-muted" : ""}>
+                    <SidebarMenuSubButton render={<a href={subItem.url} />} className={subItem.isActive ? "bg-muted" : ""} onClick={async () => {
+                      if(subItem.title == "Esci"){
+                        await logOut();
+                        window.location.href = "/";
+                      }
+                    }}>
                       <span>{subItem.title}</span>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>

@@ -19,7 +19,6 @@ export default function Page() {
 
     const [ isLoading, setIsLoading ] = useState(true);
     const [ documents, setDocuments ] = useState([]);
-    const [ search, setSearch ]: [any, any] = useState("");
     const router = useRouter();
 
     useEffect(() => {
@@ -39,25 +38,23 @@ export default function Page() {
                 <Field className="w-full">
                     <InputGroup>
                         <InputGroupInput id="inline-start-input" placeholder="Ricerca..." onChange={(e) => {
-                            setSearch(e.target.value);
+                            const copyDocs = copy(copyOfDocuments);
+                            const search = e.target.value.trim().toLowerCase();
+                            if(search.length == 0){
+                                setDocuments(copyDocs);
+                            }else{
+                                const filtered = copyDocs.filter((c: any) => 
+                                    c.title.trim().toLowerCase().includes(search) ||
+                                    c._id.trim().toLowerCase().includes(search)
+                                );
+                                setDocuments(filtered);
+                            }
                         }}/>
                         <InputGroupAddon align="inline-start">
                             <SearchIcon className="text-muted-foreground" />
                         </InputGroupAddon>
                     </InputGroup>
                 </Field>
-                <Button variant={"outline"} onClick={() => {
-                    const copyDocs = copy(copyOfDocuments);
-                    if(search.trim().length == 0){
-                        setDocuments(copyDocs);
-                    }else{
-                        const filtered = copyDocs.filter((c: any) => 
-                            c.title.trim().toLowerCase().includes(search.trim().toLowerCase()) ||
-                            c._id.trim().toLowerCase().includes(search.trim().toLowerCase())
-                        );
-                        setDocuments(filtered);
-                    }
-                }}>Ricerca</Button>
                 <Button onClick={() => {
                     router.push("/new-company");
                 }}>Nuovo</Button>
@@ -76,6 +73,7 @@ export default function Page() {
                                 <TableHead>Azienda</TableHead>
                                 <TableHead>Moduli</TableHead>
                                 <TableHead>Ruolo</TableHead>
+                                <TableHead>Azioni</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>

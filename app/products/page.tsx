@@ -13,6 +13,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { confirmQuestion, copy } from "../helper";
 import { toast } from "sonner";
+import { getArticles, trashArticle } from "../action/product";
 
 let copyOfDocuments: any[] = [];
 export default function Page(){
@@ -22,7 +23,7 @@ export default function Page(){
     const router = useRouter();
 
     useEffect(() => {
-        getCategories()
+        getArticles()
         .then((documents_) => {
             setIsLoading(false);
             copyOfDocuments = copy(documents_ ?? []);
@@ -31,7 +32,7 @@ export default function Page(){
     }, []);
 
     return (
-        <BaseLayout breadOne="Piattaforma" breadTwo="Categorie" active="/categories">
+        <BaseLayout breadOne="Piattaforma" breadTwo="Prodotti" active="/products">
             <div className="flex gap-[10px]">
                 <Field className="w-full">
                     <InputGroup>
@@ -54,7 +55,7 @@ export default function Page(){
                     </InputGroup>
                 </Field>
                 <Button onClick={() => {
-                    router.push("/new-category");
+                    router.push("/new-product");
                 }}>Nuovo</Button>
             </div>
             {
@@ -69,6 +70,7 @@ export default function Page(){
                             <TableRow>
                                 <TableHead>Codice</TableHead>
                                 <TableHead>Titolo</TableHead>
+                                <TableHead>Prezzo</TableHead>
                                 <TableHead>Posizione</TableHead>
                                 <TableHead>Azioni</TableHead>
                                 <TableHead>Ultimo aggiornamento</TableHead>
@@ -83,6 +85,9 @@ export default function Page(){
                                         </TableCell>
                                         <TableCell>
                                             {item.title}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.price.toFixed(2).split(".").join(",")} €
                                         </TableCell>
                                         <TableCell>
                                             {item.position}
@@ -102,7 +107,7 @@ export default function Page(){
                                                         delete item.createdAt;
                                                         delete item.updatedAt;
                                                         const encodedURI = encodeURIComponent( JSON.stringify(item) );
-                                                        router.push(`/new-category?object=${encodedURI}`);
+                                                        router.push(`/new-product?object=${encodedURI}`);
                                                     }}>
                                                         Modifica
                                                     </DropdownMenuItem>
@@ -110,14 +115,14 @@ export default function Page(){
                                                         confirmQuestion(
                                                             {
                                                                 confirm: async () => {
-                                                                    let isCancelled = await trashCategory({idCategory: item._id});
+                                                                    let isCancelled = await trashArticle({idArticle: item._id});
                                                                     if(isCancelled){
-                                                                        getCategories()
+                                                                        getArticles()
                                                                         .then((documents_) => {
                                                                             setDocuments(documents_ ?? []);
                                                                         });
                                                                     }else{
-                                                                        toast.error("Errore durante la cancellazione della categoria");
+                                                                        toast.error("Errore durante la cancellazione del prodotto");
                                                                     }
                                                                 },
                                                                 cancel: () => {

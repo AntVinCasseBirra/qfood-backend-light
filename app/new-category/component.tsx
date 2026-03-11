@@ -4,13 +4,14 @@ import BaseLayout from "@/components/base-layout";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { now } from "../helper";
 import { SketchPicker } from 'react-color';
 import { Checkbox } from "@/components/ui/checkbox";
 import { createCategory } from "../action/category";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function NewCategoryComponent(){
 
@@ -23,6 +24,7 @@ export default function NewCategoryComponent(){
     const [availableForWaiter, setAvailableForWaiter] = useState(false);
     const [errorFields, setErrorsFields]: [string[], any] = useState([]); 
     const [render, setRender] = useState(now());
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
 
@@ -51,7 +53,7 @@ export default function NewCategoryComponent(){
         <BaseLayout breadOne="Piattaforma" breadTwo="Categorie" breadThree="Nuova categoria" active="/new-category" breadTwoAction={'/categories'}> 
             <div className="flex flex-col gap-[10px]">
                 <Field data-invalid={errorFields.includes('title')}>
-                    <FieldLabel htmlFor="input-title">Titolo</FieldLabel>
+                    <FieldLabel htmlFor="input-title">Titolo*</FieldLabel>
                     <Input id="input-title" type="text" placeholder="Titolo" aria-invalid={errorFields.includes('title')} onChange={(e) => {
                         const index = errorFields.findIndex(e => e == "title");
                         if(index > -1){
@@ -59,12 +61,9 @@ export default function NewCategoryComponent(){
                             setRender(now());
                         }
                     }}/>
-                    <FieldDescription>
-                        Identificativo categoria
-                    </FieldDescription>
                 </Field>
                 <Field data-invalid={errorFields.includes('position')}>
-                    <FieldLabel htmlFor="input-position">Posizione</FieldLabel>
+                    <FieldLabel htmlFor="input-position">Posizione*</FieldLabel>
                     <Input id="input-position" type="number" placeholder="Posizione" aria-invalid={errorFields.includes('position')} onChange={(e) => {
                         const index = errorFields.findIndex(e => e == "position");
                         if(index > -1){
@@ -72,11 +71,8 @@ export default function NewCategoryComponent(){
                             setRender(now());
                         }
                     }}/>
-                    <FieldDescription>
-                        Posizione generale
-                    </FieldDescription>
                 </Field>
-                <div className="font-bold text-sm">Colore categoria</div>
+                <div className="font-medium text-sm">Colore categoria</div>
                 <SketchPicker color={color} onChange={(e) => {
                     setColor(e.hex);
                 }}/>
@@ -112,7 +108,7 @@ export default function NewCategoryComponent(){
                         if(title.length == 0){
                             errors.push('title');
                         }
-                        if(!position || Number.isNaN(position) || !Number.isInteger(position)){
+                        if(!position || Number.isNaN(position) || !Number.isInteger(position) || position < 0){
                             errors.push('position');
                         }
                         
@@ -130,14 +126,24 @@ export default function NewCategoryComponent(){
                             "availableOnPos": availableOnPos,
                             "availableForWaiter": availableForWaiter
                         };
+
+                        setIsLoading(true);
                         const isCreated = await createCategory(payload);
+                        setIsLoading(false);
+                        
                         if(isCreated){
                             router.push("/categories");
                         }else{
                             toast.error('Errore durante la creazione della categoria', {position: "top-right"});
                         }
 
-                    }}>Salva</Button>
+                    }} disabled={isLoading}>
+                        Salva
+                        {
+                            isLoading &&
+                            <Spinner/>
+                        }
+                    </Button>
                 </div>
             </div>
         </BaseLayout>

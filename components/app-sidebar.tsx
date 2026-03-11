@@ -11,10 +11,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { HamburgerIcon, FileIcon, DatabaseIcon, ChartBarStacked, PersonStandingIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { confirmQuestion } from "@/app/helper";
-import { logOut } from "@/app/action/auth";
+import { HamburgerIcon, FileIcon, DatabaseIcon, ChartBarStacked, PersonStandingIcon, SettingsIcon } from "lucide-react";
 
 export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<typeof Sidebar>, active: string}) {
 
@@ -45,14 +42,14 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
             },
             {
               title: "Prodotti",
-              url: "#",
-              isActive: false
+              url: "/products",
+              isActive: active == "/products" || active == "/new-product"
             },
-            {
-              title: "Varianti",
-              url: "#",
-              isActive: false
-            },
+            // {
+            //   title: "Varianti",
+            //   url: "#",
+            //   isActive: false
+            // },
           ],
         },
         {
@@ -114,6 +111,21 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
               isActive: false
             }
           ],
+        },
+        {
+          title: "Utility",
+          url: "#",
+          icon: (
+            <SettingsIcon/>
+          ),
+          isActive: false,
+          items: [
+            {
+              title: "Esci",
+              url: "#",
+              isActive: false
+            }
+          ],
         }
       ],
       projects: [
@@ -146,19 +158,6 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarRail />
-      <SidebarFooter>
-        <Button className={"mb-[10px]"} onClick={() => {
-          confirmQuestion(
-            {
-              confirm: async () => {
-                await logOut();
-                window.location.href = "/";
-              },
-              cancel: () => {}
-            }
-          );
-        }}>Esci</Button>
-      </SidebarFooter>
     </Sidebar>
   )
 }

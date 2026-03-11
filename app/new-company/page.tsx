@@ -10,6 +10,7 @@ import { now } from "../helper";
 import { createCompany } from "../action/company";
 import { Spinner } from "@/components/ui/spinner";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function Page() {
 
@@ -24,7 +25,7 @@ export default function Page() {
         <BaseLayout breadOne="Dashboard" breadTwo="Aziende" breadThree="Nuova azienda" breadTwoAction={"/companies"} active="/new-company">
             <div className="flex flex-col gap-[10px]">
                 <Field data-invalid={errorFields.includes('title')}>
-                    <FieldLabel htmlFor="input-title">Titolo</FieldLabel>
+                    <FieldLabel htmlFor="input-title">Titolo*</FieldLabel>
                     <Input id="input-title" type="text" placeholder="Titolo" aria-invalid={errorFields.includes('title')} onChange={(e) => {
                         const index = errorFields.findIndex(e => e == "title");
                         if(index > -1){
@@ -32,13 +33,10 @@ export default function Page() {
                             setRender(now());
                         }
                     }}/>
-                    <FieldDescription>
-                        Identificativo azienda
-                    </FieldDescription>
                 </Field>
                 <div className="flex gap-[20px]">
                     <Field data-invalid={errorFields.includes('email')}>
-                        <FieldLabel htmlFor="input-email">Email</FieldLabel>
+                        <FieldLabel htmlFor="input-email">Email*</FieldLabel>
                         <Input id="input-email" type="text" aria-invalid={errorFields.includes('email')} placeholder="info@example.com" onChange={(e) => {
                             const index = errorFields.findIndex(e => e == "email");
                             if(index > -1){
@@ -46,12 +44,9 @@ export default function Page() {
                                 setRender(now());
                             }
                         }}/>
-                        <FieldDescription>
-                            Email univoca nel sistema
-                        </FieldDescription>
                     </Field>
                     <Field data-invalid={errorFields.includes('password')}>
-                        <FieldLabel htmlFor="input-password">Password</FieldLabel>
+                        <FieldLabel htmlFor="input-password">Password*</FieldLabel>
                         <Input id="input-password" type="text" placeholder="Password cliente" aria-invalid={errorFields.includes('password')} onChange={(e) => {
                             const index = errorFields.findIndex(e => e == "password");
                             if(index > -1){
@@ -59,9 +54,6 @@ export default function Page() {
                                 setRender(now());
                             }
                         }}/>
-                        <FieldDescription>
-                            Password di accesso
-                        </FieldDescription>
                     </Field>
                 </div>
                 <div className="flex items-center gap-[5px]">
@@ -161,10 +153,11 @@ export default function Page() {
                             };
 
                         const isCreated = await createCompany(payload);
+                        setIsLoading(false);
                         if(isCreated){
                             router.push("/companies");
                         }else{
-                            setIsLoading(false);
+                            toast.error("Si è verificato un errore durante la creazione dell'azienda");
                         }
 
                     }} disabled={isLoading}>
