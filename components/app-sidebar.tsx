@@ -103,8 +103,8 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
             },
             {
               title: "Aree",
-              url: "#",
-              isActive: false
+              url: "/areas",
+              isActive: active == "/areas" || active == "/new-area"
             },
             {
               title: "Stazioni",
