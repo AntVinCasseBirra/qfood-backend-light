@@ -98,7 +98,7 @@ export default function NewOperatorComponent(){
                         if(isCreated){
                             router.push("/operators");
                         }else{
-                            toast.error("Errore durante la creazione dell'operatore", {position: "top-right"});
+                            toast.error("Errore durante la creazione dell'operatore. Controllare che il PIN risulti duplicato.", {position: "top-right"});
                         }
 
                     }} disabled={isLoading}>

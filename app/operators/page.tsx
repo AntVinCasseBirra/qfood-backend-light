@@ -117,7 +117,7 @@ export default function Page(){
                                                                             setDocuments(documents_ ?? []);
                                                                         });
                                                                     }else{
-                                                                        toast.error("Errore durante la cancellazione della categoria");
+                                                                        toast.error("Errore durante la cancellazione dell'operatore");
                                                                     }
                                                                 },
                                                                 cancel: () => {
