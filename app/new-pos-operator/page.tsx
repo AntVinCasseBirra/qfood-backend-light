@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import NewArticleComponent from "./component";
+import NewOperatorComponent from "./component";
 
 export default function Page(){
     return (
         <Suspense>
-            <NewArticleComponent></NewArticleComponent>
+            <NewOperatorComponent></NewOperatorComponent>
         </Suspense>
     );
 }

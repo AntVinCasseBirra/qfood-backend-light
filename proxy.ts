@@ -24,6 +24,36 @@ export default async function proxy(request: NextRequest){
         const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
         const bearer = await encrypt({"bearer": decodedValue.bearer});
 
+        // If is a protected route, check availability
+        const path = request.nextUrl.pathname;
+        if(['/companies', '/new-company'].includes(path)){
+            let isSuper = false;
+            try{
+                const response = 
+                    await fetch(
+                        `${process.env.API_ENDPOINT}/api/v1/security/isSuperAdminOrReseller`,
+                        {
+                            method: "GET",
+                            headers: {
+                                'Authorization': `Bearer ${decodedValue.bearer}`
+                            }
+                        }
+                    );
+                if(response.status == 200){
+                    const json = await response.json();
+                    if(json && json.isSuper){
+                        isSuper = true;
+                    }
+                }
+            }catch(e){
+                console.log(e);
+            }finally{
+                if(!isSuper){
+                    return NextResponse.redirect( new URL("/", request.url) );
+                }
+            }
+        }
+
         cookieStore.set(
             'qfoodSession',
             bearer,

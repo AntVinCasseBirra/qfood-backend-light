@@ -13,6 +13,7 @@ import { Spinner } from "./ui/spinner";
 import { logIn } from "@/app/action/auth";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
+import { encrypt } from "@/app/helper";
 
 
 export function LoginForm({
@@ -71,6 +72,8 @@ export function LoginForm({
             if(email.length > 0 && password.length > 0){
               const loginResult = await logIn({email, password});
               if(loginResult.isLogged){
+                const encKey = encrypt(JSON.stringify(loginResult.loginData));
+                localStorage.setItem('infoUser', encKey);
                 window.location.href = "/dashboard";
               }else{
                 setLoginFailed(true);

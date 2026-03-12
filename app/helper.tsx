@@ -1,6 +1,9 @@
 'use client';
 
 import { toast } from "sonner";
+import CryptoJS from 'crypto-js';
+
+const localKeyEncrypt = "zDVInEOQP7WcHGs6qnFqEpnDB4fzmffQGaxG0f4uSPSKqbmw";
 
 export function now(){
     return new Date().getTime();
@@ -55,4 +58,17 @@ export function confirmQuestion({confirm, cancel}: {confirm: any, cancel: any}){
             }
         }
     );
+}
+
+export function encrypt(text: string){
+    return CryptoJS.AES.encrypt(
+        text,
+        localKeyEncrypt
+    ).toString();
+}
+
+export function decrypt(enc: string){
+    const bytes = CryptoJS.AES.decrypt(enc, localKeyEncrypt);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    return decrypted;
 }

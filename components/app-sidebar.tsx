@@ -11,7 +11,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { HamburgerIcon, FileIcon, DatabaseIcon, ChartBarStacked, PersonStandingIcon, SettingsIcon } from "lucide-react";
+import { HamburgerIcon, FileIcon, DatabaseIcon, ChartBarStacked, PersonStandingIcon, SettingsIcon, UserIcon } from "lucide-react";
+import { decrypt } from "@/app/helper";
 
 export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<typeof Sidebar>, active: string}) {
 
@@ -92,8 +93,8 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
             },
             {
               title: "Operatori",
-              url: "#",
-              isActive: false
+              url: "/operators",
+              isActive: active == "/operators" || active == "/new-pos-operator"
             },
             {
               title: "Pagamenti",
@@ -144,9 +145,35 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
           icon: (
             <PersonStandingIcon/>
           ),
+        },
+        {
+          name: "Utenze",
+          url: "/users",
+          isActive: active == "/users" || active == "/new-user",
+          icon: (
+            <UserIcon/>
+          ),
         }
       ],
     };
+  try{
+    if(typeof window !== "undefined"){
+      if(typeof localStorage !== "undefined"){
+        const infoUserEnc = localStorage.getItem('infoUser');
+        if(infoUserEnc){
+          const infoUser = JSON.parse(decrypt(infoUserEnc));
+          if(!infoUser.isReseller && !infoUser.isSuperAdmin){
+            const index = data.projects.findIndex(p => p.name == "Aziende");
+            if(index > -1){
+              data.projects.splice(index, 1);
+            }
+          }
+        }
+      }
+    }
+  }catch(e){
+    console.log(e);
+  }
   return (
     data &&
     <Sidebar collapsible="icon" {...props}>

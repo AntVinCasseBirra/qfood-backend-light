@@ -83,50 +83,46 @@ export default function NewArticleComponent(){
                         }
                     }}/>
                 </Field>
-                <div className="flex gap-[10px]">
-                    <Field data-invalid={errorFields.includes('shortDescription')}>
-                        <FieldLabel htmlFor="input-title">Descrizione breve</FieldLabel>
-                        <Textarea id="input-short-description" placeholder="Descrizione breve" aria-invalid={errorFields.includes('shortDescription')} onChange={(e) => {
-                            const index = errorFields.findIndex(e => e == "shortDescription");
-                            if(index > -1){
-                                errorFields.splice(index, 1);
-                                setRender(now());
-                            }
-                        }}/>
-                    </Field>
-                    <Field data-invalid={errorFields.includes('longDescription')}>
-                        <FieldLabel htmlFor="input-title">Descrizione lunga</FieldLabel>
-                        <Textarea id="input-long-description" placeholder="Descrizione lunga" aria-invalid={errorFields.includes('longDescription')} onChange={(e) => {
-                            const index = errorFields.findIndex(e => e == "longDescription");
-                            if(index > -1){
-                                errorFields.splice(index, 1);
-                                setRender(now());
-                            }
-                        }}/>
-                    </Field>
-                </div>
-                <div className="flex gap-[10px]">
-                    <Field data-invalid={errorFields.includes('price')}>
-                        <FieldLabel htmlFor="input-price">Prezzo*</FieldLabel>
-                        <Input id="input-price" type="text" placeholder="Prezzo" aria-invalid={errorFields.includes('price')} onChange={(e) => {
-                            const index = errorFields.findIndex(e => e == "price");
-                            if(index > -1){
-                                errorFields.splice(index, 1);
-                                setRender(now());
-                            }
-                        }}/>
-                    </Field>
-                    <Field data-invalid={errorFields.includes('rate')}>
-                        <FieldLabel htmlFor="input-rate">Aliquota*</FieldLabel>
-                        <Input id="input-rate" type="text" placeholder="Aliquota" aria-invalid={errorFields.includes('rate')} onChange={(e) => {
-                            const index = errorFields.findIndex(e => e == "rate");
-                            if(index > -1){
-                                errorFields.splice(index, 1);
-                                setRender(now());
-                            }
-                        }}/>
-                    </Field>
-                </div>
+                <Field data-invalid={errorFields.includes('shortDescription')}>
+                    <FieldLabel htmlFor="input-title">Descrizione breve</FieldLabel>
+                    <Textarea id="input-short-description" placeholder="Descrizione breve" aria-invalid={errorFields.includes('shortDescription')} onChange={(e) => {
+                        const index = errorFields.findIndex(e => e == "shortDescription");
+                        if(index > -1){
+                            errorFields.splice(index, 1);
+                            setRender(now());
+                        }
+                    }}/>
+                </Field>
+                <Field data-invalid={errorFields.includes('longDescription')}>
+                    <FieldLabel htmlFor="input-title">Descrizione lunga</FieldLabel>
+                    <Textarea id="input-long-description" placeholder="Descrizione lunga" aria-invalid={errorFields.includes('longDescription')} onChange={(e) => {
+                        const index = errorFields.findIndex(e => e == "longDescription");
+                        if(index > -1){
+                            errorFields.splice(index, 1);
+                            setRender(now());
+                        }
+                    }}/>
+                </Field>
+                <Field data-invalid={errorFields.includes('price')}>
+                    <FieldLabel htmlFor="input-price">Prezzo*</FieldLabel>
+                    <Input id="input-price" type="text" placeholder="Prezzo" aria-invalid={errorFields.includes('price')} onChange={(e) => {
+                        const index = errorFields.findIndex(e => e == "price");
+                        if(index > -1){
+                            errorFields.splice(index, 1);
+                            setRender(now());
+                        }
+                    }}/>
+                </Field>
+                <Field data-invalid={errorFields.includes('rate')}>
+                    <FieldLabel htmlFor="input-rate">Aliquota*</FieldLabel>
+                    <Input id="input-rate" type="text" placeholder="Aliquota" aria-invalid={errorFields.includes('rate')} onChange={(e) => {
+                        const index = errorFields.findIndex(e => e == "rate");
+                        if(index > -1){
+                            errorFields.splice(index, 1);
+                            setRender(now());
+                        }
+                    }}/>
+                </Field>
                 <Field data-invalid={errorFields.includes('departmentNumber')}>
                     <FieldLabel htmlFor="input-price">Numero di reparto*</FieldLabel>
                     <Input id="input-department-number" type="text" placeholder="Numero di reparto" aria-invalid={errorFields.includes('departmentNumber')} onChange={(e) => {

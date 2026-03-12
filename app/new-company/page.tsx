@@ -34,28 +34,26 @@ export default function Page() {
                         }
                     }}/>
                 </Field>
-                <div className="flex gap-[20px]">
-                    <Field data-invalid={errorFields.includes('email')}>
-                        <FieldLabel htmlFor="input-email">Email*</FieldLabel>
-                        <Input id="input-email" type="text" aria-invalid={errorFields.includes('email')} placeholder="info@example.com" onChange={(e) => {
-                            const index = errorFields.findIndex(e => e == "email");
-                            if(index > -1){
-                                errorFields.splice(index, 1);
-                                setRender(now());
-                            }
-                        }}/>
-                    </Field>
-                    <Field data-invalid={errorFields.includes('password')}>
-                        <FieldLabel htmlFor="input-password">Password*</FieldLabel>
-                        <Input id="input-password" type="text" placeholder="Password cliente" aria-invalid={errorFields.includes('password')} onChange={(e) => {
-                            const index = errorFields.findIndex(e => e == "password");
-                            if(index > -1){
-                                errorFields.splice(index, 1);
-                                setRender(now());
-                            }
-                        }}/>
-                    </Field>
-                </div>
+                <Field data-invalid={errorFields.includes('email')}>
+                    <FieldLabel htmlFor="input-email">Email*</FieldLabel>
+                    <Input id="input-email" type="text" aria-invalid={errorFields.includes('email')} placeholder="info@example.com" onChange={(e) => {
+                        const index = errorFields.findIndex(e => e == "email");
+                        if(index > -1){
+                            errorFields.splice(index, 1);
+                            setRender(now());
+                        }
+                    }}/>
+                </Field>
+                <Field data-invalid={errorFields.includes('password')}>
+                    <FieldLabel htmlFor="input-password">Password*</FieldLabel>
+                    <Input id="input-password" type="text" placeholder="Password cliente" aria-invalid={errorFields.includes('password')} onChange={(e) => {
+                        const index = errorFields.findIndex(e => e == "password");
+                        if(index > -1){
+                            errorFields.splice(index, 1);
+                            setRender(now());
+                        }
+                    }}/>
+                </Field>
                 <div className="flex items-center gap-[5px]">
                     <Checkbox onCheckedChange={(e) => setIsReseller(e)}></Checkbox>È un rivenditore
                 </div>
