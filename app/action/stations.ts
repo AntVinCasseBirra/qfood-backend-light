@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { decrypt } from "./session";
 
-export async function getAreas(){
+export async function getStations(){
 
     let documents = null;
 
@@ -15,7 +15,7 @@ export async function getAreas(){
 
         const response = 
             await fetch(
-                `${process.env.API_ENDPOINT}/api/v1/area/listAllAreas`,
+                `${process.env.API_ENDPOINT}/api/v1/station/listAllStations`,
                 {
                     method: "GET",
                     headers: {
@@ -38,9 +38,9 @@ export async function getAreas(){
     return documents ?? [];
 }
 
-export async function createArea(
-    {_id, title, position, availableForWaiter} : 
-    {_id?: string | null, title: string, position: number, availableForWaiter: boolean}
+export async function createStation(
+    {_id, title, position, availableForWaiter, availableOnWebApp, idArea} : 
+    {_id?: string | null, title: string, position: number, availableForWaiter: boolean, availableOnWebApp: boolean, idArea: string}
 ){
 
     let created = false;
@@ -53,7 +53,7 @@ export async function createArea(
 
         const response =
             await fetch(
-                `${process.env.API_ENDPOINT}/api/v1/area/createOrUpdateArea`,
+                `${process.env.API_ENDPOINT}/api/v1/station/createOrUpdateStation`,
                 {
                     method: "POST",
                     headers: {
@@ -65,7 +65,9 @@ export async function createArea(
                             "_id": _id,
                             "title": title,
                             "position": position,
-                            "availableForWaiter": availableForWaiter
+                            "availableForWaiter": availableForWaiter,
+                            "availableOnWebApp": availableOnWebApp,
+                            "idArea": idArea
                         }
                     )
                 }
@@ -85,7 +87,7 @@ export async function createArea(
     return created;
 }
 
-export async function trashArea({idArea}: {idArea: string}){
+export async function trashStation({idStation}: {idStation: string}){
 
     let trashed = false;
 
@@ -97,7 +99,7 @@ export async function trashArea({idArea}: {idArea: string}){
 
         const response = 
             await fetch(
-                `${process.env.API_ENDPOINT}/api/v1/area/deleteArea/${idArea}`,
+                `${process.env.API_ENDPOINT}/api/v1/station/deleteStation/${idStation}`,
                 {
                     method: "DELETE",
                     headers: {

@@ -108,8 +108,8 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
             },
             {
               title: "Stazioni",
-              url: "#",
-              isActive: false
+              url: "/stations",
+              isActive: active == "/stations" || active == "/new-station"
             }
           ],
         },

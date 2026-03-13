@@ -12,7 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { toast } from "sonner";
-import { getAreas, trashArea } from "../action/area";
+import { getStations, trashStation } from "../action/stations";
 
 let copyOfDocuments: any[] = [];
 export default function Page(){
@@ -22,7 +22,7 @@ export default function Page(){
     const router = useRouter();
 
     useEffect(() => {
-        getAreas()
+        getStations()
         .then((documents_) => {
             setIsLoading(false);
             copyOfDocuments = copy(documents_ ?? []);
@@ -31,7 +31,7 @@ export default function Page(){
     }, []);
 
     return (
-        <BaseLayout breadOne="Piataforma" breadTwo="Aree" active="/areas">
+        <BaseLayout breadOne="Piataforma" breadTwo="Stazioni" active="/stations">
             <div className="flex gap-[10px]">
                 <Field className="w-full">
                     <InputGroup>
@@ -54,7 +54,7 @@ export default function Page(){
                     </InputGroup>
                 </Field>
                 <Button onClick={() => {
-                    router.push("/new-area");
+                    router.push("/new-station");
                 }}>Nuovo</Button>
             </div>
             {
@@ -102,7 +102,7 @@ export default function Page(){
                                                         delete item.createdAt;
                                                         delete item.updatedAt;
                                                         const encodedURI = encodeURIComponent( JSON.stringify(item) );
-                                                        router.push(`/new-area?object=${encodedURI}`);
+                                                        router.push(`/new-station?object=${encodedURI}`);
                                                     }}>
                                                         Modifica
                                                     </DropdownMenuItem>
@@ -110,9 +110,9 @@ export default function Page(){
                                                         confirmQuestion(
                                                             {
                                                                 confirm: async () => {
-                                                                    let isCancelled = await trashArea({idArea: item._id});
+                                                                    let isCancelled = await trashStation({idStation: item._id});
                                                                     if(isCancelled){
-                                                                        getAreas()
+                                                                        getStations()
                                                                         .then((documents_) => {
                                                                             setDocuments(documents_ ?? []);
                                                                         });
