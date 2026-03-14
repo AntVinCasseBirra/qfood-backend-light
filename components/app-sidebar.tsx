@@ -88,8 +88,8 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
           items: [
             {
               title: "Clienti",
-              url: "#",
-              isActive: false
+              url: "/customers",
+              isActive: active == "/customers" || active == "/new-customer"
             },
             {
               title: "Operatori",
@@ -98,8 +98,8 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
             },
             {
               title: "Pagamenti",
-              url: "#",
-              isActive: false
+              url: "/payments",
+              isActive: active == "/payments" || active == "/new-payment"
             },
             {
               title: "Aree",
@@ -146,14 +146,14 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
             <PersonStandingIcon/>
           ),
         },
-        {
-          name: "Utenze",
-          url: "/users",
-          isActive: active == "/users" || active == "/new-user",
-          icon: (
-            <UserIcon/>
-          ),
-        }
+        // {
+        //   name: "Utenze",
+        //   url: "/users",
+        //   isActive: active == "/users" || active == "/new-user",
+        //   icon: (
+        //     <UserIcon/>
+        //   ),
+        // }
       ],
     };
   try{

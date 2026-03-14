@@ -31,7 +31,7 @@ export default function Page(){
     }, []);
 
     return (
-        <BaseLayout breadOne="Piataforma" breadTwo="Operatori" active="/operators">
+        <BaseLayout breadOne="Piattaforma" breadTwo="Operatori" active="/operators">
             <div className="flex gap-[10px]">
                 <Field className="w-full">
                     <InputGroup>

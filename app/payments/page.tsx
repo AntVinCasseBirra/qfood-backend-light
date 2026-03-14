@@ -12,7 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { toast } from "sonner";
-import { getStations, trashStation } from "../action/stations";
+import { getPayments, trashPayment } from "../action/payment";
 
 let copyOfDocuments: any[] = [];
 export default function Page(){
@@ -22,7 +22,7 @@ export default function Page(){
     const router = useRouter();
 
     useEffect(() => {
-        getStations()
+        getPayments()
         .then((documents_) => {
             setIsLoading(false);
             copyOfDocuments = copy(documents_ ?? []);
@@ -31,7 +31,7 @@ export default function Page(){
     }, []);
 
     return (
-        <BaseLayout breadOne="Piattaforma" breadTwo="Stazioni" active="/stations">
+        <BaseLayout breadOne="Piattaforma" breadTwo="Pagamenti" active="/payments">
             <div className="flex gap-[10px]">
                 <Field className="w-full">
                     <InputGroup>
@@ -54,7 +54,7 @@ export default function Page(){
                     </InputGroup>
                 </Field>
                 <Button onClick={() => {
-                    router.push("/new-station");
+                    router.push("/new-payment");
                 }}>Nuovo</Button>
             </div>
             {
@@ -102,7 +102,7 @@ export default function Page(){
                                                         delete item.createdAt;
                                                         delete item.updatedAt;
                                                         const encodedURI = encodeURIComponent( JSON.stringify(item) );
-                                                        router.push(`/new-station?object=${encodedURI}`);
+                                                        router.push(`/new-payment?object=${encodedURI}`);
                                                     }}>
                                                         Modifica
                                                     </DropdownMenuItem>
@@ -110,14 +110,14 @@ export default function Page(){
                                                         confirmQuestion(
                                                             {
                                                                 confirm: async () => {
-                                                                    let isCancelled = await trashStation({idStation: item._id});
+                                                                    let isCancelled = await trashPayment({idPayment: item._id});
                                                                     if(isCancelled){
-                                                                        getStations()
+                                                                        getPayments()
                                                                         .then((documents_) => {
                                                                             setDocuments(documents_ ?? []);
                                                                         });
                                                                     }else{
-                                                                        toast.error("Errore durante la cancellazione dell'area");
+                                                                        toast.error("Errore durante la cancellazione del pagamento");
                                                                     }
                                                                 },
                                                                 cancel: () => {

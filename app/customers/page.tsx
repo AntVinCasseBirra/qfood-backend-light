@@ -12,7 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { toast } from "sonner";
-import { getStations, trashStation } from "../action/stations";
+import { getCustomers } from "../action/customer";
 
 let copyOfDocuments: any[] = [];
 export default function Page(){
@@ -22,7 +22,7 @@ export default function Page(){
     const router = useRouter();
 
     useEffect(() => {
-        getStations()
+        getCustomers()
         .then((documents_) => {
             setIsLoading(false);
             copyOfDocuments = copy(documents_ ?? []);
@@ -31,7 +31,7 @@ export default function Page(){
     }, []);
 
     return (
-        <BaseLayout breadOne="Piattaforma" breadTwo="Stazioni" active="/stations">
+        <BaseLayout breadOne="Piattaforma" breadTwo="Clienti" active="/customers">
             <div className="flex gap-[10px]">
                 <Field className="w-full">
                     <InputGroup>
@@ -54,7 +54,7 @@ export default function Page(){
                     </InputGroup>
                 </Field>
                 <Button onClick={() => {
-                    router.push("/new-station");
+                    router.push("/new-customer");
                 }}>Nuovo</Button>
             </div>
             {
@@ -69,7 +69,8 @@ export default function Page(){
                             <TableRow>
                                 <TableHead>Codice</TableHead>
                                 <TableHead>Titolo</TableHead>
-                                <TableHead>Posizione</TableHead>
+                                <TableHead>Ragione sociale</TableHead>
+                                <TableHead>P.Iva</TableHead>
                                 <TableHead>Azioni</TableHead>
                                 <TableHead>Ultimo aggiornamento</TableHead>
                             </TableRow>
@@ -85,7 +86,10 @@ export default function Page(){
                                             {item.title}
                                         </TableCell>
                                         <TableCell>
-                                            {item.position}
+                                            {item.businessName}
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.vatNumber}
                                         </TableCell>
                                         <TableCell>
                                             <DropdownMenu>
@@ -102,7 +106,7 @@ export default function Page(){
                                                         delete item.createdAt;
                                                         delete item.updatedAt;
                                                         const encodedURI = encodeURIComponent( JSON.stringify(item) );
-                                                        router.push(`/new-station?object=${encodedURI}`);
+                                                        router.push(`/new-customer?object=${encodedURI}`);
                                                     }}>
                                                         Modifica
                                                     </DropdownMenuItem>
@@ -110,15 +114,15 @@ export default function Page(){
                                                         confirmQuestion(
                                                             {
                                                                 confirm: async () => {
-                                                                    let isCancelled = await trashStation({idStation: item._id});
-                                                                    if(isCancelled){
-                                                                        getStations()
-                                                                        .then((documents_) => {
-                                                                            setDocuments(documents_ ?? []);
-                                                                        });
-                                                                    }else{
-                                                                        toast.error("Errore durante la cancellazione dell'area");
-                                                                    }
+                                                                    // let isCancelled = await trashArea({idArea: item._id});
+                                                                    // if(isCancelled){
+                                                                    //     getAreas()
+                                                                    //     .then((documents_) => {
+                                                                    //         setDocuments(documents_ ?? []);
+                                                                    //     });
+                                                                    // }else{
+                                                                    //     toast.error("Errore durante la cancellazione dell'area");
+                                                                    // }
                                                                 },
                                                                 cancel: () => {
    

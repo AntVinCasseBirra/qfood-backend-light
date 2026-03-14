@@ -31,7 +31,7 @@ export default function Page(){
     }, []);
 
     return (
-        <BaseLayout breadOne="Piataforma" breadTwo="Aree" active="/areas">
+        <BaseLayout breadOne="Piattaforma" breadTwo="Aree" active="/areas">
             <div className="flex gap-[10px]">
                 <Field className="w-full">
                     <InputGroup>
