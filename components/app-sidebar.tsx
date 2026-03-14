@@ -119,8 +119,13 @@ export function AppSidebar({ active, ...props }: {props?: React.ComponentProps<t
           icon: (
             <SettingsIcon/>
           ),
-          isActive: false,
+          isActive: true,
           items: [
+            {
+              title: "Impostazioni",
+              url: "/settings",
+              isActive: active == "/settings"
+            },
             {
               title: "Esci",
               url: "#",
