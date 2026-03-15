@@ -34,11 +34,13 @@ export default function NewPaymentComponent(){
             
             const inputTitle = document.querySelector("#input-title") as HTMLInputElement;
             const inputTend = document.querySelector("#input-tend") as HTMLInputElement;
-            const inputSubTend = document.querySelector("#input-sub-tend") as HTMLInputElement;
+            const inputSubTend = document.querySelector("#input-subtend") as HTMLInputElement;
             const inputPosition = document.querySelector("#input-position") as HTMLInputElement;
 
             inputTitle.value = object['title'] ?? "";
             inputPosition.value = object['position'] ? object['position'].toString() : '';
+            inputTend.value = object['printerTend'] ?? "";
+            inputSubTend.value = object['printerSubTend'] ?? "";
 
             setId(object['_id']);
             setAvailableOnPos(object['availableOnPos'] ?? false);
